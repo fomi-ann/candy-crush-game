@@ -29,7 +29,7 @@ function startGame() {
             // Create a <img> tag 
             let tile = document.createElement("img");
             // Asign an id to img tag: <img id = "0-0">
-            tile.i = r.toString() + "-" + c.toString();
+            tile.id = r.toString() + "-" + c.toString();
             // Generate a src for img
             tile.src = "./images/" + randomCandy() + ".png";
 
@@ -72,9 +72,30 @@ function dragDrop() {
 }
 
 function dragEnd() {
-    // Swap the image sorces
-    let currImg = currTile.src;
-    let otherImg = otherTile.src;
-    currTile.src = otherImg;
-    otherTile.src = currImg;
+    // Row and col for current and other candies:
+    let currCoords = currTile.id.split("-"); // id="0-0" --> ["0", "0"]
+    let r = parseInt(currCoords[0]);
+    let c = parseInt(currCoords[1]);
+
+    let otherCoords = otherTile.id.split("-");
+    let r2 = parseInt(otherCoords[0]);
+    let c2 = parseInt(otherCoords[1]);
+
+    // Check for horisontal adjacency
+    let moveLeft = c2 == c - 1 && r == r2;
+    let moveRight = c2 == c + 1 && r == r2;
+
+    // Check for vertical adjacency
+    let moveUp = r2 == r - 1 && c == c2;
+    let moveDown = r2 == r + 1 && c == c2;
+
+    let isAdjacent = moveLeft || moveRight || moveUp || moveDown;
+    
+    if (isAdjacent) {
+        // Swap the image sources
+        let currImg = currTile.src;
+        let otherImg = otherTile.src;
+        currTile.src = otherImg;
+        otherTile.src = currImg;
+    }
 }
