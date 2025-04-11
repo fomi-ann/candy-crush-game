@@ -19,6 +19,7 @@ window.onload = function() {
     // 1/10 of a second calls crushCandy()
     window.setInterval(function(){
         crushCandy();
+        slideCandy();
     }, 100);
 }
 
@@ -110,7 +111,7 @@ function dragEnd() {
 
         let validMove = checkValid();
         // If nothing to crush, swap back candies
-        id (!validMove) {
+        if (!validMove) {
             let currImg = currTile.src;
             let otherImg = otherTile.src;
             currTile.src = otherImg;
@@ -182,4 +183,20 @@ function checkValid() {
     }
 
     return false; // if no candy to crush
+}
+
+function slideCandy() {
+    for (let c = 0; c < columns; c++) {
+        let ind = rows - 1;
+        for (let r = columns - 1; r >= 0; r--) {
+            if (!board[r][c].src.includes("blank")) {
+                board[ind][c].src = board[r][c].src;
+                ind -= 1;
+            }
+        }
+
+        for (let r = ind; r >= 0; r--) {
+            board[r][c].src = "./images/blank.png";
+        }
+    }
 }
