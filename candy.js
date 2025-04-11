@@ -15,6 +15,11 @@ var otherTile;
 
 window.onload = function() {
     startGame();
+
+    // 1/10 of a second calls crushCandy()
+    window.setInterval(function(){
+        crushCandy();
+    }, 100);
 }
 
 function randomCandy() {
@@ -97,5 +102,42 @@ function dragEnd() {
         let otherImg = otherTile.src;
         currTile.src = otherImg;
         otherTile.src = currImg;
+    }
+}
+
+function crushCandy() {
+    // CrushFive();
+    // CrushFour();
+    crushThree();
+
+}
+
+function crushThree() {
+    // Check rows
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns - 2; c++) {
+            let candy1 = board[r][c];
+            let candy2 = board[r][c + 1];
+            let candy3 = board[r][c + 2];
+            if (candy1.src == candy2.src && candy2.src == candy3.src && !candy1.src.includes("blank")) {
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+            }
+        }
+    }
+
+    // Check columns
+    for (let c = 0; c < columns; c++) {
+        for (let r = 0; r < rows - 2; r++) {
+            let candy1 = board[r][c];
+            let candy2 = board[r + 1][c];
+            let candy3 = board[r + 2][c];
+            if (candy1.src == candy2.src && candy2.src == candy3.src && !candy1.src.includes("blank")) {
+                candy1.src = "./images/blank.png";
+                candy2.src = "./images/blank.png";
+                candy3.src = "./images/blank.png";
+            }
+        }
     }
 }
